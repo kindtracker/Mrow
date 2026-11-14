@@ -8,7 +8,7 @@ local Linker = "cc"
 local CFlags = "-O0"
 local LDFlags = "-O0 -lunicorn"
 
-local Output = "lunix"
+local Output = "mrow"
 local OutputFolder = "Output"
 local BuildFolder = "Build"
 
