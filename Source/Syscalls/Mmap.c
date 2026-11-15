@@ -3,7 +3,9 @@
 #include <errno.h>
 #include <stdint.h>
 
-void MrowSyscallMmap(uc_engine *Unicorn) {
+void MrowSyscallMmap(uc_engine *Unicorn, MrowProcess *Process) {
+  (void)Process;
+
   uint64_t Address;
   uint64_t Length;
   uint64_t Protection;

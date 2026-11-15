@@ -1,6 +1,8 @@
 #include "Mrow.h"
 
-void MrowSyscallWrite(uc_engine *Unicorn) {
+void MrowSyscallWrite(uc_engine *Unicorn, MrowProcess *Process) {
+  (void)Process;
+
   uint64_t Fd;
   uint64_t Address;
   uint64_t Size;

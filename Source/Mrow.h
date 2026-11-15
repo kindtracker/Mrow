@@ -44,8 +44,8 @@ void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process);
 void MrowStartProcess(MrowProcess *Process);
 void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process);
 
-void MrowSyscallWrite(uc_engine *Unicorn);
-void MrowSyscallExit(uc_engine *Unicorn);
+void MrowSyscallWrite(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallExit(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallBrk(uc_engine *Unicorn, MrowProcess *Process);
-void MrowSyscallMmap(uc_engine *Unicorn);
-void MrowSyscallExitGroup(uc_engine *Unicorn);
+void MrowSyscallMmap(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallExitGroup(uc_engine *Unicorn, MrowProcess *Process);

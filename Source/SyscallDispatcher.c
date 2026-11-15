@@ -10,11 +10,11 @@ void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process) {
 
   switch (Number) {
   case 64:
-    MrowSyscallWrite(Unicorn);
+    MrowSyscallWrite(Unicorn, Process);
     break;
 
   case 93:
-    MrowSyscallExit(Unicorn);
+    MrowSyscallExit(Unicorn, Process);
     break;
 
   case 214:
@@ -22,11 +22,11 @@ void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process) {
     break;
 
   case 222:
-    MrowSyscallMmap(Unicorn);
+    MrowSyscallMmap(Unicorn, Process);
     break;
 
   case 94:
-    MrowSyscallExitGroup(Unicorn);
+    MrowSyscallExitGroup(Unicorn, Process);
     break;
 
   default: {
