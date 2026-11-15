@@ -1,5 +1,5 @@
-Build
-Output
+Build/
+Output/
 
-Examplse/*
+Examples/*
 !Examples/*.c
