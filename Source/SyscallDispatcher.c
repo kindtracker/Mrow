@@ -77,6 +77,54 @@ void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process) {
     MrowSyscallSchedYield(Unicorn, Process);
     break;
 
+  case 176:
+    MrowSyscallGetResgid(Unicorn, Process);
+    break;
+
+  case 144:
+    MrowSyscallSetUid(Unicorn, Process);
+    break;
+
+  case 146:
+    MrowSyscallSetReuid(Unicorn, Process);
+    break;
+
+  case 175:
+    MrowSyscallUmask(Unicorn, Process);
+    break;
+
+  case 56:
+    MrowSyscallOpenat(Unicorn, Process);
+    break;
+
+  case 63:
+    MrowSyscallRead(Unicorn, Process);
+    break;
+
+  case 57:
+    MrowSyscallClose(Unicorn, Process);
+    break;
+
+  case 172:
+    MrowSyscallGetPid(Unicorn, Process);
+    break;
+
+  case 134:
+    MrowSyscallRtSigaction(Unicorn, Process);
+    break;
+
+  case 173:
+    MrowSyscallGetPpid(Unicorn, Process);
+    break;
+
+  case 160:
+    MrowSyscallUname(Unicorn, Process);
+    break;
+
+  case 17:
+    MrowSyscallGetCwd(Unicorn, Process);
+    break;
+
   default: {
     Crash("Unknown svc: Number=%lu", Number);
 
