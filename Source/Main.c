@@ -4,16 +4,11 @@
 #include "Mrow.h"
 
 int main(int Argc, char *Argv[]) {
-  char *FileName = NULL;
-
-  for (int Idx = 1; Idx < Argc; Idx++) {
-    char *Argument = Argv[Idx];
-    FileName = Argument;
-  }
-
-  if (!FileName) {
+  if (Argc < 2) {
     FatalCrash("No input file");
   }
+
+  char *FileName = Argv[1];
 
   FILE *FilePtr = fopen(FileName, "rb");
   if (!FilePtr) {

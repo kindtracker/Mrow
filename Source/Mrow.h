@@ -60,3 +60,5 @@ void MrowSyscallGetRandom(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallReadlinkat(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallMprotect(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallFstat(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallGetRusage(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallNewfstatat(uc_engine *Unicorn, MrowProcess *Process);

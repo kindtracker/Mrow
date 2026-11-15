@@ -61,6 +61,14 @@ void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process) {
     MrowSyscallFstat(Unicorn, Process);
     break;
 
+  case 174:
+    MrowSyscallGetRusage(Unicorn, Process);
+    break;
+
+  case 79:
+    MrowSyscallNewfstatat(Unicorn, Process);
+    break;
+
   default: {
     Crash("Unknown svc: Number=%lu", Number);
 
