@@ -23,12 +23,15 @@
     exit(1);                                                                   \
   } while (0)
 
-#define STACK_ADDRESS 0x70000000
+#define STACK_ADDRESS 0x10000000
 #define STACK_SIZE 0x100000
+#define PAGE_SIZE 0x1000
 
 typedef struct {
   uc_engine *Unicorn;
   uint64_t Entry;
+  uint64_t HeapStart;
+  uint64_t ProgramBreak;
 } MrowProcess;
 
 extern uc_err UcError;
@@ -39,7 +42,10 @@ void Free(void *Pointer);
 MrowProcess *MrowCreateProcess(void);
 void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process);
 void MrowStartProcess(MrowProcess *Process);
-void MrowSyscall(uc_engine *Unicorn);
+void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process);
 
 void MrowSyscallWrite(uc_engine *Unicorn);
 void MrowSyscallExit(uc_engine *Unicorn);
+void MrowSyscallBrk(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallMmap(uc_engine *Unicorn);
+void MrowSyscallExitGroup(uc_engine *Unicorn);

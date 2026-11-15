@@ -50,8 +50,6 @@ void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process) {
     Crash("Invalid ELF (Invalid program header table)");
   }
 
-  Process->Entry = Header->e_entry;
-
   Elf64_Phdr *Phdr = (Elf64_Phdr *)(FileContent + Header->e_phoff);
 
   uint64_t MinAddress = UINT64_MAX;
@@ -129,4 +127,8 @@ void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process) {
       BssSize -= Chunk;
     }
   }
+
+  Process->Entry = Header->e_entry;
+  Process->HeapStart = MaxAddress;
+  Process->ProgramBreak = MaxAddress;
 }

@@ -15,9 +15,8 @@
   } while (0)
 
 static void HookCode(uc_engine *Unicorn, uint64_t Address, uint32_t Size,
-                     void *UserData) {
+                     MrowProcess *Process) {
   (void)Size;
-  (void)UserData;
 
   uint32_t Instruction;
 
@@ -25,7 +24,7 @@ static void HookCode(uc_engine *Unicorn, uint64_t Address, uint32_t Size,
            "Failed to read instruction");
 
   if ((Instruction & 0xffe0001f) == 0xd4000001) {
-    MrowSyscall(Unicorn);
+    MrowSyscall(Unicorn, Process);
 
     uint64_t NewPC = Address + 4;
 
@@ -124,7 +123,7 @@ void MrowStartProcess(MrowProcess *Process) {
   uc_hook InvalidInstructionHook;
 
   CHECK_UC(uc_hook_add(Process->Unicorn, &CodeHook, UC_HOOK_CODE,
-                       (void *)HookCode, NULL, 1, 0),
+                       (void *)HookCode, Process, 1, 0),
            "Failed to install code hook");
 
   CHECK_UC(uc_hook_add(Process->Unicorn, &InvalidMemoryHook,

@@ -4,7 +4,7 @@
 
 #include "Mrow.h"
 
-void MrowSyscall(uc_engine *Unicorn) {
+void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process) {
   uint64_t Number;
   uc_reg_read(Unicorn, UC_ARM64_REG_X8, &Number);
 
@@ -15,6 +15,18 @@ void MrowSyscall(uc_engine *Unicorn) {
 
   case 93:
     MrowSyscallExit(Unicorn);
+    break;
+
+  case 214:
+    MrowSyscallBrk(Unicorn, Process);
+    break;
+
+  case 222:
+    MrowSyscallMmap(Unicorn);
+    break;
+
+  case 94:
+    MrowSyscallExitGroup(Unicorn);
     break;
 
   default: {
