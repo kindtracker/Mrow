@@ -5,7 +5,7 @@ local Sources = { "Source" }
 local CCompiler = "cc"
 local CXXCompiler = "cc"
 local Linker = "cc"
-local CFlags = "-O0"
+local CFlags = "-O0 -Wall -Wextra"
 local LDFlags = "-O0 -lunicorn"
 
 local Output = "mrow"

@@ -1,3 +1,35 @@
 #include <stdio.h>
+#include <unicorn/unicorn.h>
 
-int main(int Argc, char *Argv[]) { return 0; }
+#include "Mrow.h"
+
+int main(int Argc, char *Argv[]) {
+  char *FileName = NULL;
+
+  for (int Idx = 1; Idx < Argc; Idx++) {
+    char *Argument = Argv[Idx];
+    FileName = Argument;
+  }
+
+  if (!FileName) {
+    FatalCrash("No input file");
+  }
+
+  FILE *FilePtr = fopen(FileName, "rb");
+  if (!FilePtr) {
+    FatalCrash("%s: No such file or directory", FileName);
+  }
+
+  fseek(FilePtr, 0, SEEK_END);
+  size_t FileSize = ftell(FilePtr);
+  fseek(FilePtr, 0, SEEK_SET);
+
+  char *FileContent = Malloc(FileSize + 1);
+  fread(FileContent, 1, FileSize, FilePtr);
+  FileContent[FileSize] = '\0';
+
+  puts(FileContent);
+
+  fclose(FilePtr);
+  return 0;
+}
