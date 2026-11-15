@@ -28,7 +28,8 @@ int main(int Argc, char *Argv[]) {
   fread(FileContent, 1, FileSize, FilePtr);
   FileContent[FileSize] = '\0';
 
-  puts(FileContent);
+  MrowProgram *Program = MrowCreateProgram();
+  MrowLoadProgram(FileContent, Program);
 
   fclose(FilePtr);
   return 0;

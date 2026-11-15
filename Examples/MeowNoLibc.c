@@ -20,12 +20,12 @@ static inline int Syscall(int Number, uint32_t Arg0, uint32_t Arg1,
 }
 
 static inline void SysExit(int Status) {
-  Syscall(1, Status, 0, 0, 0, 0, 0);
+  Syscall(93, Status, 0, 0, 0, 0, 0);
   __builtin_unreachable();
 }
 
 static inline int SysWrite(int Fd, const char *Buffer, unsigned int Length) {
-  return Syscall(4, Fd, (uint32_t)Buffer, Length, 0, 0, 0);
+  return Syscall(64, Fd, (uint32_t)Buffer, Length, 0, 0, 0);
 }
 
 void _start(void) {

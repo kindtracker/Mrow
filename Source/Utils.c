@@ -2,7 +2,7 @@
 
 #include "Mrow.h"
 
-void *Malloc(size_t Size) {
+inline void *Malloc(size_t Size) {
   void *Memory = malloc(Size);
   if (!Memory) {
     FatalCrash("Failed to allocate memory (%ld)", Size);
@@ -10,3 +10,5 @@ void *Malloc(size_t Size) {
 
   return Memory;
 }
+
+inline void Free(void *Pointer) { free(Pointer); }

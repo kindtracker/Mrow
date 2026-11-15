@@ -1,6 +1,7 @@
 #pragma once
 #include <stddef.h>
 #include <stdio.h>
+#include <unicorn/unicorn.h>
 
 #define Crash(...)                                                             \
   do {                                                                         \
@@ -22,4 +23,13 @@
     exit(1);                                                                   \
   } while (0)
 
+typedef struct {
+  uc_engine *Unicorn;
+  uint64_t Entry;
+} MrowProgram;
+
 void *Malloc(size_t Size);
+void Free(void *Pointer);
+
+MrowProgram *MrowCreateProgram(void);
+void MrowLoadProgram(char *FileContent, MrowProgram *Program);
