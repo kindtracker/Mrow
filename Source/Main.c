@@ -31,7 +31,7 @@ int main(int Argc, char *Argv[]) {
 
   MrowProcess *Process = MrowCreateProcess();
   MrowLoadProcess(FileContent, FileSize, Process);
-  MrowStartProcess(Process);
+  MrowStartProcess(Process, Argc, Argv);
 
   return 0;
 }

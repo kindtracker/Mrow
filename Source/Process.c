@@ -106,13 +106,47 @@ MrowProcess *MrowCreateProcess(void) {
   return Process;
 }
 
-void MrowStartProcess(MrowProcess *Process) {
+void MrowStartProcess(MrowProcess *Process, int Argc, char **Argv) {
   CHECK_UC(uc_mem_map(Process->Unicorn, STACK_ADDRESS, STACK_SIZE,
                       UC_PROT_READ | UC_PROT_WRITE),
            "Failed to map stack");
 
-  uint64_t StackPointer = STACK_ADDRESS + STACK_SIZE - 0x20;
+  uint64_t StackPointer = STACK_ADDRESS + STACK_SIZE;
+  uint64_t *ArgPointers = Malloc(sizeof(uint64_t) * Argc);
+
+  for (int i = Argc - 1; i >= 0; i--) {
+    size_t Length = strlen(Argv[i]) + 1;
+    StackPointer -= Length;
+
+    uc_mem_write(Process->Unicorn, StackPointer, Argv[i], Length);
+
+    ArgPointers[i] = StackPointer;
+  }
+
   StackPointer &= ~0xFULL;
+
+  uint64_t StackTable[Argc + 5];
+  int Index = 0;
+
+  StackTable[Index++] = Argc;
+
+  for (int i = 0; i < Argc; i++) {
+    StackTable[Index++] = ArgPointers[i];
+  }
+
+  StackTable[Index++] = 0;
+  StackTable[Index++] = 0;
+  StackTable[Index++] = 0;
+  StackTable[Index++] = 0;
+
+  StackPointer -= sizeof(StackTable);
+  StackPointer &= ~0xFULL;
+
+  CHECK_UC(uc_mem_write(Process->Unicorn, StackPointer, StackTable,
+                        sizeof(StackTable)),
+           "Failed to initialize stack");
+
+  free(ArgPointers);
 
   CHECK_UC(uc_reg_write(Process->Unicorn, UC_ARM64_REG_SP, &StackPointer),
            "Failed to initialize stack pointer");

@@ -44,7 +44,7 @@ void Free(void *Pointer);
 
 MrowProcess *MrowCreateProcess(void);
 void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process);
-void MrowStartProcess(MrowProcess *Process);
+void MrowStartProcess(MrowProcess *Process, int Argc, char **Argv);
 void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process);
 
 void MrowSyscallWrite(uc_engine *Unicorn, MrowProcess *Process);
