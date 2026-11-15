@@ -29,6 +29,38 @@ void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process) {
     MrowSyscallExitGroup(Unicorn, Process);
     break;
 
+  case 96:
+    MrowSyscallSetTidAddress(Unicorn, Process);
+    break;
+
+  case 99:
+    MrowSyscallSetRobustList(Unicorn, Process);
+    break;
+
+  case 293:
+    MrowSyscallRseq(Unicorn, Process);
+    break;
+
+  case 261:
+    MrowSyscallPrlimit64(Unicorn, Process);
+    break;
+
+  case 278:
+    MrowSyscallGetRandom(Unicorn, Process);
+    break;
+
+  case 78:
+    MrowSyscallReadlinkat(Unicorn, Process);
+    break;
+
+  case 226:
+    MrowSyscallMprotect(Unicorn, Process);
+    break;
+
+  case 80:
+    MrowSyscallFstat(Unicorn, Process);
+    break;
+
   default: {
     Crash("Unknown svc: Number=%lu", Number);
 

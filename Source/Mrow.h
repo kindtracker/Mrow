@@ -32,6 +32,9 @@ typedef struct {
   uint64_t Entry;
   uint64_t HeapStart;
   uint64_t ProgramBreak;
+  uint64_t Tid;
+  uint64_t ClearChildTid;
+  uint64_t RobustList;
 } MrowProcess;
 
 extern uc_err UcError;
@@ -49,3 +52,11 @@ void MrowSyscallExit(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallBrk(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallMmap(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallExitGroup(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallSetTidAddress(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallSetRobustList(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallRseq(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallPrlimit64(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallGetRandom(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallReadlinkat(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallMprotect(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallFstat(uc_engine *Unicorn, MrowProcess *Process);
