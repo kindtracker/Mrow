@@ -18,8 +18,10 @@ void MrowSyscall(uc_engine *Unicorn) {
     break;
 
   default: {
-    uint64_t Result = (uint64_t)-ENOSYS;
-    uc_reg_write(Unicorn, UC_ARM64_REG_X0, &Result);
+    Crash("Unknown svc: Number=%lu\n", Number);
+
+    // uint64_t Result = (uint64_t)-ENOSYS;
+    // uc_reg_write(Unicorn, UC_ARM64_REG_X0, &Result);
     break;
   }
   }
