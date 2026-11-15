@@ -10,8 +10,7 @@ static void HookCode(uc_engine *Unicorn, uint64_t Address, uint32_t Size,
   uc_mem_read(Unicorn, Address, &Instruction, sizeof(Instruction));
 
   if ((Instruction & 0xffe0001f) == 0xd4000001) {
-    uint64_t Result = MyaSyscall(Unicorn);
-    uc_reg_write(uc, UC_ARM64_REG_X0, &Result);
+    MrowSyscall(Unicorn);
 
     uint64_t NewPc = Address + 4;
     uc_reg_write(Unicorn, UC_ARM64_REG_PC, &NewPc);
