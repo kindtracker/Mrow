@@ -28,8 +28,10 @@ typedef struct {
   uint64_t Entry;
 } MrowProgram;
 
+extern uc_err UcError;
+
 void *Malloc(size_t Size);
 void Free(void *Pointer);
 
 MrowProgram *MrowCreateProgram(void);
-void MrowLoadProgram(char *FileContent, MrowProgram *Program);
+void MrowLoadProgram(char *FileContent, size_t FileSize, MrowProgram *Program);

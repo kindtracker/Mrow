@@ -29,7 +29,7 @@ int main(int Argc, char *Argv[]) {
   FileContent[FileSize] = '\0';
 
   MrowProgram *Program = MrowCreateProgram();
-  MrowLoadProgram(FileContent, Program);
+  MrowLoadProgram(FileContent, FileSize, Program);
 
   fclose(FilePtr);
   return 0;
