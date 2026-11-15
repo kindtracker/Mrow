@@ -40,3 +40,6 @@ MrowProcess *MrowCreateProcess(void);
 void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process);
 void MrowStartProcess(MrowProcess *Process);
 void MrowSyscall(uc_engine *Unicorn);
+
+void MrowSyscallWrite(uc_engine *Unicorn);
+void MrowSyscallExit(uc_engine *Unicorn);

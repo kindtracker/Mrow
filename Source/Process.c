@@ -5,6 +5,8 @@
 
 static void HookCode(uc_engine *Unicorn, uint64_t Address, uint32_t Size,
                      void *UserData) {
+  (void)Size;
+  (void)UserData;
   uint32_t Instruction;
 
   uc_mem_read(Unicorn, Address, &Instruction, sizeof(Instruction));
