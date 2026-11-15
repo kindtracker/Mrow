@@ -4,13 +4,6 @@
 
 #include "Mrow.h"
 
-#include <elf.h>
-#include <stdint.h>
-#include <string.h>
-#include <unicorn/unicorn.h>
-
-#include "Mrow.h"
-
 uc_err UcError = {0};
 
 void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process) {
@@ -78,11 +71,12 @@ void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process) {
     }
 
     uint64_t Address = Ph->p_vaddr & ~0xfffULL;
-    uint64_t End = (Ph->p_vaddr + Ph->p_memsz + 0xfffULL) & ~0xfffULL;
-
-    if (End < Ph->p_vaddr + Ph->p_memsz) {
+    uint64_t SegmentEnd = Ph->p_vaddr + Ph->p_memsz;
+    if (SegmentEnd > UINT64_MAX - 0xfffULL) {
       Crash("Invalid ELF (Address overflow)");
     }
+
+    uint64_t End = (SegmentEnd + 0xfffULL) & ~0xfffULL;
 
     if (Address < MinAddress) {
       MinAddress = Address;

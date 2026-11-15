@@ -8,9 +8,9 @@
 
 #define CHECK_UC(Expression, Message)                                          \
   do {                                                                         \
-    uc_err Error = (Expression);                                               \
-    if (Error != UC_ERR_OK) {                                                  \
-      Crash("%s: %s", Message, uc_strerror(Error));                            \
+    UcError = (Expression);                                                    \
+    if (UcError != UC_ERR_OK) {                                                \
+      Crash("%s: %s", Message, uc_strerror(UcError));                          \
     }                                                                          \
   } while (0)
 
@@ -32,33 +32,6 @@ static void HookCode(uc_engine *Unicorn, uint64_t Address, uint32_t Size,
     CHECK_UC(uc_reg_write(Unicorn, UC_ARM64_REG_PC, &NewPC),
              "Failed to advance PC");
   }
-}
-
-static void HookMemoryAccess(uc_engine *Unicorn, uc_mem_type Type,
-                             uint64_t Address, int Size, int64_t Value,
-                             void *UserData) {
-  (void)Unicorn;
-  (void)Value;
-  (void)UserData;
-
-  const char *Operation = "Unknown";
-
-  switch (Type) {
-  case UC_MEM_READ:
-    Operation = "Read";
-    break;
-  case UC_MEM_WRITE:
-    Operation = "Write";
-    break;
-  case UC_MEM_FETCH:
-    Operation = "Fetch";
-    break;
-  default:
-    break;
-  }
-
-  printf("Memory %s: Address=0x%016llx Size=%d\n", Operation,
-         (unsigned long long)Address, Size);
 }
 
 static bool HookMemoryInvalid(uc_engine *Unicorn, uc_mem_type Type,
@@ -139,14 +112,13 @@ void MrowStartProcess(MrowProcess *Process) {
                       UC_PROT_READ | UC_PROT_WRITE),
            "Failed to map stack");
 
-  uint64_t StackPointer = STACK_ADDRESS + STACK_SIZE;
+  uint64_t StackPointer = STACK_ADDRESS + STACK_SIZE - 0x20;
   StackPointer &= ~0xFULL;
 
   CHECK_UC(uc_reg_write(Process->Unicorn, UC_ARM64_REG_SP, &StackPointer),
            "Failed to initialize stack pointer");
 
   uc_hook CodeHook;
-  uc_hook MemoryHook;
   uc_hook InvalidMemoryHook;
   uc_hook InterruptHook;
   uc_hook InvalidInstructionHook;
@@ -154,11 +126,6 @@ void MrowStartProcess(MrowProcess *Process) {
   CHECK_UC(uc_hook_add(Process->Unicorn, &CodeHook, UC_HOOK_CODE,
                        (void *)HookCode, NULL, 1, 0),
            "Failed to install code hook");
-
-  CHECK_UC(uc_hook_add(Process->Unicorn, &MemoryHook,
-                       UC_HOOK_MEM_READ | UC_HOOK_MEM_WRITE,
-                       (void *)HookMemoryAccess, NULL, 1, 0),
-           "Failed to install memory access hook");
 
   CHECK_UC(uc_hook_add(Process->Unicorn, &InvalidMemoryHook,
                        UC_HOOK_MEM_INVALID, (void *)HookMemoryInvalid, NULL, 1,
