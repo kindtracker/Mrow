@@ -3,9 +3,9 @@
 
 #include "Mrow.h"
 
-MrowProgram *MrowCreateProgram(void) {
-  MrowProgram *Program = Malloc(sizeof(MrowProgram));
-  memset(Program, 0, sizeof(MrowProgram));
+MrowProcess *MrowCreateProcess(void) {
+  MrowProcess *Process = Malloc(sizeof(MrowProcess));
+  memset(Process, 0, sizeof(MrowProcess));
 
   uc_engine *Unicorn;
   UcError = uc_open(UC_ARCH_ARM64, UC_MODE_ARM, &Unicorn);
@@ -13,7 +13,7 @@ MrowProgram *MrowCreateProgram(void) {
     Crash("Failed to create unicorn engine: %s", uc_strerror(UcError));
   }
 
-  Program->Unicorn = Unicorn;
+  Process->Unicorn = Unicorn;
 
-  return Program;
+  return Process;
 }

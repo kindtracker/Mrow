@@ -26,12 +26,12 @@
 typedef struct {
   uc_engine *Unicorn;
   uint64_t Entry;
-} MrowProgram;
+} MrowProcess;
 
 extern uc_err UcError;
 
 void *Malloc(size_t Size);
 void Free(void *Pointer);
 
-MrowProgram *MrowCreateProgram(void);
-void MrowLoadProgram(char *FileContent, size_t FileSize, MrowProgram *Program);
+MrowProcess *MrowCreateProcess(void);
+void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process);

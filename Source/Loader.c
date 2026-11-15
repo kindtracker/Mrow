@@ -13,7 +13,7 @@
 
 uc_err UcError = {0};
 
-void MrowLoadProgram(char *FileContent, size_t FileSize, MrowProgram *Program) {
+void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process) {
   if (FileSize < sizeof(Elf64_Ehdr)) {
     Crash("Invalid ELF (File too small)");
   }
@@ -57,7 +57,7 @@ void MrowLoadProgram(char *FileContent, size_t FileSize, MrowProgram *Program) {
     Crash("Invalid ELF (Invalid program header table)");
   }
 
-  Program->Entry = Header->e_entry;
+  Process->Entry = Header->e_entry;
 
   Elf64_Phdr *Phdr = (Elf64_Phdr *)(FileContent + Header->e_phoff);
 
@@ -97,7 +97,7 @@ void MrowLoadProgram(char *FileContent, size_t FileSize, MrowProgram *Program) {
     Crash("Invalid ELF (No loadable segments)");
   }
 
-  UcError = uc_mem_map(Program->Unicorn, MinAddress, MaxAddress - MinAddress,
+  UcError = uc_mem_map(Process->Unicorn, MinAddress, MaxAddress - MinAddress,
                        UC_PROT_ALL);
   if (UcError != UC_ERR_OK) {
     Crash("Unicorn memory mapping failed: %s", uc_strerror(UcError));
@@ -112,7 +112,7 @@ void MrowLoadProgram(char *FileContent, size_t FileSize, MrowProgram *Program) {
     }
 
     if (Ph->p_filesz > 0) {
-      UcError = uc_mem_write(Program->Unicorn, Ph->p_vaddr,
+      UcError = uc_mem_write(Process->Unicorn, Ph->p_vaddr,
                              FileContent + Ph->p_offset, Ph->p_filesz);
       if (UcError != UC_ERR_OK) {
         Crash("Failed to write ELF segment: %s", uc_strerror(UcError));
@@ -126,7 +126,7 @@ void MrowLoadProgram(char *FileContent, size_t FileSize, MrowProgram *Program) {
       size_t Chunk =
           BssSize < sizeof(ZeroBuffer) ? (size_t)BssSize : sizeof(ZeroBuffer);
 
-      UcError = uc_mem_write(Program->Unicorn, BssAddress, ZeroBuffer, Chunk);
+      UcError = uc_mem_write(Process->Unicorn, BssAddress, ZeroBuffer, Chunk);
       if (UcError != UC_ERR_OK) {
         Crash("Failed to initialize BSS: %s", uc_strerror(UcError));
       }
