@@ -27,10 +27,11 @@ int main(int Argc, char *Argv[]) {
   char *FileContent = Malloc(FileSize + 1);
   fread(FileContent, 1, FileSize, FilePtr);
   FileContent[FileSize] = '\0';
+  fclose(FilePtr);
 
   MrowProcess *Process = MrowCreateProcess();
   MrowLoadProcess(FileContent, FileSize, Process);
+  MrowStartProcess(Process);
 
-  fclose(FilePtr);
   return 0;
 }

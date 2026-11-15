@@ -23,6 +23,9 @@
     exit(1);                                                                   \
   } while (0)
 
+#define STACK_ADDRESS 0x70000000
+#define STACK_SIZE 0x100000
+
 typedef struct {
   uc_engine *Unicorn;
   uint64_t Entry;
@@ -35,3 +38,5 @@ void Free(void *Pointer);
 
 MrowProcess *MrowCreateProcess(void);
 void MrowLoadProcess(char *FileContent, size_t FileSize, MrowProcess *Process);
+void MrowStartProcess(MrowProcess *Process);
+void MrowSyscall(uc_engine *Unicorn);
