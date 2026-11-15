@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <unicorn/unicorn.h>
 
 #include "Mrow.h"
@@ -23,6 +24,10 @@ int main(int Argc, char *Argv[]) {
   fread(FileContent, 1, FileSize, FilePtr);
   FileContent[FileSize] = '\0';
   fclose(FilePtr);
+
+  memmove(&Argv[0], &Argv[1], sizeof(char *) * (Argc - 1));
+  Argc--;
+  Argv[0] = "busybox";
 
   MrowProcess *Process = MrowCreateProcess();
   MrowLoadProcess(FileContent, FileSize, Process);

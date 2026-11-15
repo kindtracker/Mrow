@@ -69,6 +69,14 @@ void MrowSyscall(uc_engine *Unicorn, MrowProcess *Process) {
     MrowSyscallNewfstatat(Unicorn, Process);
     break;
 
+  case 29:
+    MrowSyscallIoctl(Unicorn, Process);
+    break;
+
+  case 24:
+    MrowSyscallSchedYield(Unicorn, Process);
+    break;
+
   default: {
     Crash("Unknown svc: Number=%lu", Number);
 

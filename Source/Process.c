@@ -114,6 +114,12 @@ void MrowStartProcess(MrowProcess *Process, int Argc, char **Argv) {
   uint64_t StackPointer = STACK_ADDRESS + STACK_SIZE;
   uint64_t *ArgPointers = Malloc(sizeof(uint64_t) * Argc);
 
+  printf("argc: %d\n", Argc);
+
+  for (int i = 0; i < Argc; i++) {
+    printf("argv[%d]: %s\n", i, Argv[i]);
+  }
+
   for (int i = Argc - 1; i >= 0; i--) {
     size_t Length = strlen(Argv[i]) + 1;
     StackPointer -= Length;

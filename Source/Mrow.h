@@ -62,3 +62,5 @@ void MrowSyscallMprotect(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallFstat(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallGetRusage(uc_engine *Unicorn, MrowProcess *Process);
 void MrowSyscallNewfstatat(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallIoctl(uc_engine *Unicorn, MrowProcess *Process);
+void MrowSyscallSchedYield(uc_engine *Unicorn, MrowProcess *Process);
